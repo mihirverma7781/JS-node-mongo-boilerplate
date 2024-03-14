@@ -10,7 +10,7 @@ const {
   NODE_COOKIE_SIGNED_KEY,
   NODE_API_VERSION,
 } = require("./configs/server.config");
-const { TestRouter } = require("./routes/index.routes");
+const { TestRouter, UserRouter } = require("./routes/index.routes");
 
 // EXPRESS SERVER APP INTITIALIZATION
 const app = express();
@@ -32,7 +32,7 @@ database.connectDB();
 
 // INITIALIZING ROUTES
 app.use(`/api/${NODE_API_VERSION}`, TestRouter);
-
+app.use(`/api/${NODE_API_VERSION}/user`, UserRouter);
 
 // INITIALIZING ERROR MIDDLEWARE
 const errorMiddleware = new ErrorMiddleware();
