@@ -1,12 +1,12 @@
-const TestController = require("../controllers/test.controller");
+const { TestController } = require("../controllers/index.controller");
 const { TestValidator } = require("./validators/index.validator");
-const router = require("express").Router();
+const testRouter = require("express").Router();
 
 // INITILIZIND CORRESPONDING CONTROLLER
 const testController = new TestController();
 const testValidator = new TestValidator();
 
-router.get("/test-server", async (req, res, next) => {
+testRouter.get("/test-server", async (req, res, next) => {
   try {
     const result = await testController.testServerController(req, res);
     return result;
@@ -16,7 +16,7 @@ router.get("/test-server", async (req, res, next) => {
   }
 });
 
-router.post(
+testRouter.post(
   "/test-post-server",
   testValidator.postServerValidator(),
   async (req, res, next) => {
@@ -30,4 +30,4 @@ router.post(
   }
 );
 
-module.exports = router;
+module.exports = testRouter;

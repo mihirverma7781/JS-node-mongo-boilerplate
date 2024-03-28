@@ -1,12 +1,13 @@
 const { cookie, validationResult } = require("express-validator");
 const CustomResponse = require("../utils/response.util");
-const TestService = require("../services/test.service");
+const { TestService } = require("../services/index.service");
 
 class TestController {
   constructor() {
     this.testService = new TestService();
     this.response = new CustomResponse();
   }
+  
   async testServerController(request, res) {
     try {
       const result = await this.testService.serverResponse({
