@@ -6,9 +6,9 @@ class CustomResponse {
       message: message,
       status: status === true ? "SUCCESS" : "FAILED",
       internalCode: internalCode,
-      data: data || null,
+      data: data,
     };
-    return response.status(statusCode).json(responseObject);
+    return responseObject;
   }
 
   sendError(statusCode, message, status, internalCode, data) {
@@ -17,16 +17,6 @@ class CustomResponse {
       message: message || "Internal Server Error",
       status: status === true ? "SUCCESS" : "FAILED",
       internalCode: internalCode || 201,
-      data: data || null,
-    };
-  }
-
-  badRequest(message, data) {
-    return {
-      statusCode: 400,
-      message: message || "Bad Request",
-      status: "FAILED",
-      internalCode: 201,
       data: data || null,
     };
   }

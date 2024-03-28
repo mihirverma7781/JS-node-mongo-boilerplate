@@ -3,38 +3,22 @@ const { BadRequestError } = require("../utils/error.util");
 const CustomResponse = require("../utils/response.util");
 
 class TestService {
-  constructor() {
-    this.response = new CustomResponse();
-    this.statusCode = RESPONSE_CODES;
-  }
-  async serverResponse(req, res) {
+  constructor() {}
+
+  async serverResponse({ body, query, params, auth }) {
     try {
       const message = "Server is running";
-      const data = [
-        {
-          name: "Alt Carbon",
-          stage: "seed",
-        },
-      ];
+      const data = true;
 
-    //   throw this.response.sendError(
-    //     this.statusCode.BAD_REQUEST,
-    //     "You are not member of alt carbon",
-    //     false,
-    //     201,
-    //     null
-    //   );
+      throw BadRequestError.generate("this is an new error", false);
 
-      return this.response.send(
-        res,
-        this.statusCode.SUCCESS,
-        message,
-        true,
-        200,
-        data
-      );
+      return {
+        message: message,
+        statusCode: RESPONSE_CODES.SUCCESS,
+        status: true,
+        data: data,
+      };
     } catch (error) {
-      logger.error("[TEST SERVICE]:", error);
       throw error;
     }
   }

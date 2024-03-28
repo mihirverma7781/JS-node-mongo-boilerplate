@@ -7,18 +7,29 @@ class TestController {
     this.testService = new TestService();
     this.response = new CustomResponse();
   }
-  async testServerController(req, res) {
+  async testServerController(request, res) {
     try {
-      const result = await this.testService.serverResponse(req, res);
-      return result;
+      const result = await this.testService.serverResponse({
+        body: request.body,
+        query: request.query,
+        params: request.params,
+        auth: request.auth,
+      });
+      return response.status(result.statusCode).json({
+        message: result.message,
+        status: result.status,
+        internalCode: 200,
+        data: result.data,
+      });
     } catch (error) {
       throw error;
     }
   }
 
-  async testPostServerController(req, res) {
+  async testPostServerController(request, response) {
     try {
-      const errors = validationResult(req);
+      // VALIDATING BODY
+      const errors = validationResult(request);
       if (!errors.isEmpty()) {
         const errorMessages = errors
           .array()
@@ -26,8 +37,22 @@ class TestController {
           .join(", ");
         throw this.response.badRequest(errorMessages);
       }
-      const result = await this.testService.serverResponse(req, res);
-      return result;
+
+      // CALLING SERVICE
+      const result = await this.testService.serverResponse({
+        body: request.body,
+        query: request.query,
+        params: request.params,
+        auth: request.auth,
+      });
+
+      // RETURNING RESPONSE
+      return response.status(result.statusCode).json({
+        message: result.message,
+        status: result.status === true ? "SUCCESS" : "FAILED",
+        internalCode: 200,
+        data: result.data,
+      });
     } catch (error) {
       throw error;
     }
